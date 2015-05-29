@@ -1,5 +1,5 @@
 require 'optim'
-require 'cutorch'
+-- require 'cutorch'
 require 'xlua'
 
 local function minibatch_adam(model, criterion,
@@ -14,9 +14,9 @@ local function minibatch_adam(model, criterion,
    local shuffle = torch.randperm(#train_x)
    local c = 1
    local inputs = torch.Tensor(batch_size,
-			       input_size[1], input_size[2], input_size[3]):cuda()
+			       input_size[1], input_size[2], input_size[3])
    local targets = torch.Tensor(batch_size,
-				target_size[1] * target_size[2] * target_size[3]):cuda()
+				target_size[1] * target_size[2] * target_size[3])
    local inputs_tmp = torch.Tensor(batch_size,
 			       input_size[1], input_size[2], input_size[3])
    local targets_tmp = torch.Tensor(batch_size,

@@ -155,7 +155,7 @@ local function test_jpeg()
 end
 local function test_scale()
    require 'nn'
-   require 'cudnn'
+   -- require 'cudnn'
    require './LeakyReLU'
    
    local loader = require 'image_loader'

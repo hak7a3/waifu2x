@@ -1,5 +1,5 @@
 require 'torch'
-require 'cutorch'
+-- require 'cutorch'
 require 'xlua'
 require 'pl'
 

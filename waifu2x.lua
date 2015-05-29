@@ -1,4 +1,5 @@
-require 'cudnn'
+-- require 'cudnn'
+require 'nn'
 require 'sys'
 require 'pl'
 require './lib/LeakyReLU'
@@ -22,16 +23,16 @@ local function convert_image(opt)
       opt.o = path.join(path.dirname(opt.i), string.format("%s(%s).png", base, opt.m))
    end
    if opt.m == "noise" then
-      local model = torch.load(path.join(opt.model_dir, ("noise%d_model.t7"):format(opt.noise_level)), "ascii")
+      local model = torch.load(path.join(opt.model_dir, ("noise%d_model_nocuda.t7"):format(opt.noise_level)), "ascii")
       model:evaluate()
       new_x = reconstruct.image(model, x, BLOCK_OFFSET)
    elseif opt.m == "scale" then
-      local model = torch.load(path.join(opt.model_dir, ("scale%.1fx_model.t7"):format(opt.scale)), "ascii")
+      local model = torch.load(path.join(opt.model_dir, ("scale%.1fx_model_nocuda.t7"):format(opt.scale)), "ascii")
       model:evaluate()
       new_x = reconstruct.scale(model, opt.scale, x, BLOCK_OFFSET)
    elseif opt.m == "noise_scale" then
-      local noise_model = torch.load(path.join(opt.model_dir, ("noise%d_model.t7"):format(opt.noise_level)), "ascii")
-      local scale_model = torch.load(path.join(opt.model_dir, ("scale%.1fx_model.t7"):format(opt.scale)), "ascii")
+      local noise_model = torch.load(path.join(opt.model_dir, ("noise%d_model_nocuda.t7"):format(opt.noise_level)), "ascii")
+      local scale_model = torch.load(path.join(opt.model_dir, ("scale%.1fx_model_nocuda.t7"):format(opt.scale)), "ascii")
       noise_model:evaluate()
       scale_model:evaluate()
       x = reconstruct.image(noise_model, x, BLOCK_OFFSET)
@@ -43,9 +44,9 @@ local function convert_image(opt)
    print(opt.o .. ": " .. (sys.clock() - t) .. " sec")
 end
 local function convert_frames(opt)
-   local noise1_model = torch.load(path.join(opt.model_dir, "noise1_model.t7"), "ascii")
-   local noise2_model = torch.load(path.join(opt.model_dir, "noise2_model.t7"), "ascii")
-   local scale_model = torch.load(path.join(opt.model_dir, ("scale%.1fx_model.t7"):format(opt.scale)), "ascii")
+   local noise1_model = torch.load(path.join(opt.model_dir, "noise1_model_nocuda.t7"), "ascii")
+   local noise2_model = torch.load(path.join(opt.model_dir, "noise2_model_nocuda.t7"), "ascii")
+   local scale_model = torch.load(path.join(opt.model_dir, ("scale%.1fx_model_nocuda.t7"):format(opt.scale)), "ascii")
 
    noise1_model:evaluate()
    noise2_model:evaluate()

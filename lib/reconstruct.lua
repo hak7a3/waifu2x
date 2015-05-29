@@ -7,7 +7,7 @@ local function reconstruct_layer(model, x, block_size, offset)
    end
    local new_x = torch.Tensor():resizeAs(x):zero()
    local output_size = block_size - offset * 2
-   local input = torch.CudaTensor(1, 1, block_size, block_size)
+   local input = torch.Tensor(1, 1, block_size, block_size)
    
    for i = 1, x:size(2), output_size do
       for j = 1, x:size(3), output_size do
